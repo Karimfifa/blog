@@ -12,13 +12,15 @@ export default function App() {
   const [refresh , setRefresh] = useState(false);
   const {user} =  useUser();
   useEffect( ()=>{
-    fetchBlogs();
-    if(refresh){
-      setRefresh(false)
+    const fetchdata = async ()=>{
+      fetchBlogs();
+      if(refresh){
+        setRefresh(false)
+      }
+      const name:any = await user?.fullName;
+      setAuthor(name)
+      alert(name)
     }
-    const name:any =  user?.fullName;
-    setAuthor(name)
-    alert(name)
   },[refresh])
 
 
