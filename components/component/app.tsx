@@ -17,7 +17,7 @@ export default function App() {
   const {user} =  useUser();
   const name:any =  user?.fullName;
       setAuthor(name)
-      alert(name)
+      
   useEffect( ()=>{
     const fetchdata = async ()=>{
       fetchBlogs();
