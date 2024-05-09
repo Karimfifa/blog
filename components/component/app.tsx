@@ -11,12 +11,11 @@ export default function App() {
   // State to store our user data.
   const [title , setTitle] = useState('');
   const [content , setContent ]= useState("");
-  const [author, setAuthor]= useState("") ;
   const [blogs , setBlogs] = useState([])
   const [refresh , setRefresh] = useState(false);
   const {user} =  useUser();
-  const name:any =  user?.fullName;
-      setAuthor(name)
+  const currentUser:any =  user?.fullName;
+
       
   useEffect( ()=>{
     const fetchdata = async ()=>{
@@ -29,12 +28,7 @@ export default function App() {
     fetchdata();
   },[refresh])
   //-------------
-  useEffect(()=>{
-    async function authorSetUp(){
-    }
-    authorSetUp();
-  },[])
-
+ 
   //get blogs
   async function fetchBlogs() {
    try {  
@@ -55,7 +49,7 @@ export default function App() {
         'Content-Type':'application/json',
         title:title,
         content:content,
-        author:author
+        author:currentUser
       },
     })
     request ? setRefresh(true)  : console.log("Error In Adding Data");
