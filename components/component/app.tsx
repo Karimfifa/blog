@@ -15,6 +15,9 @@ export default function App() {
   const [blogs , setBlogs] = useState([])
   const [refresh , setRefresh] = useState(false);
   const {user} =  useUser();
+  const name:any =  user?.fullName;
+      setAuthor(name)
+      alert(name)
   useEffect( ()=>{
     const fetchdata = async ()=>{
       fetchBlogs();
@@ -28,9 +31,6 @@ export default function App() {
   //-------------
   useEffect(()=>{
     async function authorSetUp(){
-      const name:any = await user?.fullName;
-      setAuthor(name)
-      alert(name)
     }
     authorSetUp();
   },[])
