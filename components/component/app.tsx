@@ -8,25 +8,40 @@ export default function App() {
   const [content , setContent ]= useState("");
   const [author, setAuthor]= useState("") ;
   const [blogs , setBlogs] = useState([])
+  const [refresh , setRefresh] = useState(false);
 
   useEffect(()=>{
     fetchBlogs();
-  },[])
+    if(refresh){
+      setRefresh(false)
+    }
+  },[refresh])
 
-  // Submit the form data to api
 
   //get blogs
   async function fetchBlogs() {
    try {  
-      const {data,error}:any = await supabase.from('blogs').select();
+      const {data,error}:any = await supabase.from('blogs').select().order('id',{ascending:false});
       data ? setBlogs(data) : console.log("Error in Fetching Blogs");
    } catch (error) {
     alert(error)
    }
   }
+  
+  // Submit the form data to api
 
-  function handlesubmit(){
-
+  async function handlesubmit(e:any){
+    e.preventDefault();
+    const request = await fetch('http://localhost:3000/api/blogs',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        title:title,
+        content:content,
+        author:author
+      },
+    })
+    request ? setRefresh(true)  : console.log("Error In Adding Data");
   }
 
   return (
@@ -43,6 +58,7 @@ export default function App() {
               id="title"
               name="title"
               type="text"
+              onChange={(e:any)=>setTitle(e.target.value)}
             />
           </div>
           <div>
@@ -54,6 +70,7 @@ export default function App() {
               id="author"
               name="author"
               type="text"
+              onChange={(e:any)=>setAuthor(e.target.value)}
             />
           </div>
           <div>
@@ -65,6 +82,7 @@ export default function App() {
               id="content"
               name="content"
               rows={4}
+              onChange={(e:any)=>setContent(e.target.value)}
             />
           </div>
           <button
@@ -86,7 +104,7 @@ export default function App() {
                   <img
                     alt="Blog Post Image"
                     className="h-32 w-full rounded-lg object-cover sm:h-40 sm:w-64"
-                    src="/placeholder.svg"
+                    src="https://images.pexels.com/photos/261579/pexels-photo-261579.jpeg?auto=compress&cs=tinysrgb&w=600"
                   />
                 </div>
                 <div className="flex-1">
@@ -99,12 +117,12 @@ export default function App() {
                   <p className="mb-4 text-gray-700 dark:text-gray-300">
                     {blog.content}
                   </p>
-                  <a
+                  {/* <a
                     className="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-500 dark:hover:bg-indigo-600"
                     href="#"
                   >
                     Read More
-                  </a>
+                  </a> */}
                 </div>
               </div>
               ))
