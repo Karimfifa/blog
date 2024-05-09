@@ -2,11 +2,32 @@
 import { useState  , useEffect } from "react"
 
 export default function App() {
+  const [title , setTitle] = useState('');
+  const [content , setContent ]= useState("");
+  const [author, setAuthor]= useState("") ;
+  // Submit the form data to api
+
+  //get blogs
+  async function fetchBlogs() {
+    const resp = await fetch("http://localhost:3000/api/blogs",{
+      method : "GET",
+      headers:{
+        "Accept":"application/json",
+        "Content-Type": "application/json",
+    }
+    })
+    const blogs = await resp.json();
+  }
+
+
+  useEffect(()=>{
+    fetchBlogs();
+  },[])
   return (
     <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <div className="mb-8 rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
         <h2 className="mb-4 text-2xl font-bold">Create a New Post</h2>
-        <form className="space-y-4">
+        <form onSubmit={handlesubmit} className="space-y-4">
           <div>
             <label className="block font-medium text-gray-700 dark:text-gray-300" htmlFor="title">
               Title
