@@ -21,6 +21,7 @@ export default function App() {
       setAuthor(name)
       alert(name)
     }
+    fetchdata();
   },[refresh])
 
 
