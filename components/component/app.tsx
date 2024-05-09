@@ -2,6 +2,10 @@
 import { useState  , useEffect } from "react"
 import { createClient } from "@/lib/supabase/config";
 import { useUser } from "@clerk/nextjs";
+interface Name{
+  firstName:string,
+  lastName: string
+}
 export default function App() {
   const supabase = createClient();
   // State to store our user data.
@@ -17,13 +21,18 @@ export default function App() {
       if(refresh){
         setRefresh(false)
       }
+      
+    }
+    fetchdata();
+  },[refresh])
+  useEffect(()=>{
+    async function authorSetUp(){
       const name:any = await user?.fullName;
       setAuthor(name)
       alert(name)
     }
-    fetchdata();
-  },[refresh])
-
+    authorSetUp();
+  })
 
   //get blogs
   async function fetchBlogs() {
