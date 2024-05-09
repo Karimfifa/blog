@@ -25,6 +25,7 @@ export default function App() {
     }
     fetchdata();
   },[refresh])
+  //-------------
   useEffect(()=>{
     async function authorSetUp(){
       const name:any = await user?.fullName;
@@ -32,7 +33,7 @@ export default function App() {
       alert(name)
     }
     authorSetUp();
-  })
+  },[])
 
   //get blogs
   async function fetchBlogs() {
