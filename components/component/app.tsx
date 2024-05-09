@@ -1,6 +1,7 @@
 'use client'
 import { useState  , useEffect } from "react"
 import { createClient } from "@/lib/supabase/config";
+import { useUser } from "@clerk/nextjs";
 export default function App() {
   const supabase = createClient();
   // State to store our user data.
@@ -9,12 +10,15 @@ export default function App() {
   const [author, setAuthor]= useState("") ;
   const [blogs , setBlogs] = useState([])
   const [refresh , setRefresh] = useState(false);
-
-  useEffect(()=>{
+  const {user} =  useUser();
+  useEffect(async ()=>{
     fetchBlogs();
     if(refresh){
       setRefresh(false)
     }
+    const name:any = await user?.fullName;
+    setAuthor(name)
+    alert(name)
   },[refresh])
 
 
@@ -61,18 +65,7 @@ export default function App() {
               onChange={(e:any)=>setTitle(e.target.value)}
             />
           </div>
-          <div>
-            <label className="block font-medium text-gray-700 dark:text-gray-300" htmlFor="author">
-              Author
-            </label>
-            <input
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:focus:border-indigo-500"
-              id="author"
-              name="author"
-              type="text"
-              onChange={(e:any)=>setAuthor(e.target.value)}
-            />
-          </div>
+         
           <div>
             <label className="block font-medium text-gray-700 dark:text-gray-300" htmlFor="content">
               Content
