@@ -32,7 +32,7 @@ export default function App() {
 
   async function handlesubmit(e:any){
     e.preventDefault();
-    const request = await fetch('http://localhost:3000/api/blogs',{
+    const request = await fetch('https://blog-sigma-lyart-46.vercel.app/api/blogs',{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
